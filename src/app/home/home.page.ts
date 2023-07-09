@@ -1,5 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import * as p5 from 'p5';
+import { gradientBackground } from 'src/utils/algorithm/gradiente-back-ground';
 import { Submarine } from 'src/utils/poligons-model/submarin';
 
 @Component({
@@ -46,20 +47,22 @@ export class HomePage {
     const INITPOS = this.getInitPos(p);
     const INITACC = new p5.Vector();
     const INITVEL = new p5.Vector();
-    this.submarine = new Submarine(INITPOS, INITVEL, INITACC,4);
+    this.submarine = new Submarine(INITPOS, INITVEL, INITACC);
+
   }
 
   draw(p: p5) {
-    p.background(0, 0, 255);
+    //p.background(0, 0, 255);
+    gradientBackground(p, p.displayWidth, p.displayHeight);
     this.submarine.display(p);
     this.submarine.update();
     this.submarine.checkEdges(p);
-    p.background(0, 25, 255, 100);
+    // p.background(0, 25, 255, 100);
     this.accelerateToDirection(p);
   }
 
   private getInitPos(p: p5): p5.Vector {
-    return new p5.Vector(p.displayWidth , 20);
+    return new p5.Vector(p.displayWidth, 20);
   }
 
   accelerateToDirection(p: p5) {

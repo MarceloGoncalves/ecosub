@@ -207,45 +207,43 @@ export class Submarine {
     p.pop();
 
     p.push();
+
     //Motor Vertical
     p.fill(200);
     p.strokeWeight(1 * this.size);
     p.stroke('#BFBFBF');
 
     p.beginShape();
-    p.vertex(this.motion.pos.x, this.motion.pos.y);
+    p.vertex(
+      this.motion.pos.x + 25 * this.size,
+      this.motion.pos.y + 20 * this.size
+    );
     p.bezierVertex(
-      this.motion.pos.x + 2 * this.size,
+      this.motion.pos.x + 25 * this.size,
       this.motion.pos.y,
-      this.motion.pos.x + 7 * this.size,
+      this.motion.pos.x + 35 * this.size,
       this.motion.pos.y,
-      this.motion.pos.x + 9 * this.size,
-      this.motion.pos.y + 2 * this.size
+      this.motion.pos.x + 35 * this.size,
+      this.motion.pos.y + 20 * this.size
+    );
+
+    p.endShape(p.CLOSE);
+
+    //MOTOR HORIZONTAL
+    p.beginShape();
+    p.vertex(
+      this.motion.pos.x + 40 * this.size,
+      this.motion.pos.y + 25 * this.size
     );
     p.bezierVertex(
-      this.motion.pos.x + 9 * this.size,
-      this.motion.pos.y + 2 * this.size,
-      this.motion.pos.x + 9 * this.size,
-      this.motion.pos.y + 4 * this.size,
-      this.motion.pos.x + 7 * this.size,
-      this.motion.pos.y + 4 * this.size
+      this.motion.pos.x+ 50 * this.size,
+      this.motion.pos.y + 25 * this.size,
+      this.motion.pos.x + 50 * this.size,
+      this.motion.pos.y + 35 * this.size,
+      this.motion.pos.x + 70 * this.size,
+      this.motion.pos.y + 35 * this.size
     );
-    p.bezierVertex(
-      this.motion.pos.x + 7 * this.size,
-      this.motion.pos.y + 4 * this.size,
-      this.motion.pos.x + 2 * this.size,
-      this.motion.pos.y + 4 * this.size,
-      this.motion.pos.x,
-      this.motion.pos.y + 4 * this.size
-    );
-    p.bezierVertex(
-      this.motion.pos.x,
-      this.motion.pos.y + 4 * this.size,
-      this.motion.pos.x,
-      this.motion.pos.y + 2 * this.size,
-      this.motion.pos.x,
-      this.motion.pos.y
-    );
+
     p.endShape(p.CLOSE);
     p.pop();
 
@@ -263,19 +261,21 @@ export class Submarine {
 
     //Antena
     p.noStroke();
-    p.fill(p.random(255),0,0);
+    p.fill(255);
     p.rect(
       this.motion.pos.x,
       this.motion.pos.y - 15 * this.size,
       2 * this.size,
       15 * this.size
     );
+    //luz
     p.fill(p.random(255), 0, 0);
     p.rect(
       this.motion.pos.x,
-      this.motion.pos.y - 15 * this.size,
+      this.motion.pos.y - 18 * this.size,
       2 * this.size,
-      2 * this.size
+      4 * this.size,
+      20
     );
     p.pop();
 
