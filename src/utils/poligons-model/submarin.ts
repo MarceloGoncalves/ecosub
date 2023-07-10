@@ -36,7 +36,9 @@ export class Submarine {
   }
 
   display(p: p5) {
+    p.push();
     this.leftToRight(p);
+    p.pop();
   }
 
   update() {
@@ -203,12 +205,13 @@ export class Submarine {
       3 * this.size,
       20 * this.size
     );
-    p.endShape();
-    p.pop();
 
+    p.endShape(p.CLOSE);
+    p.pop();
     p.push();
 
     //Motor Vertical
+    p.beginShape();
     p.fill(200);
     p.strokeWeight(1 * this.size);
     p.stroke('#BFBFBF');
@@ -226,24 +229,26 @@ export class Submarine {
       this.motion.pos.x + 35 * this.size,
       this.motion.pos.y + 20 * this.size
     );
-
     p.endShape(p.CLOSE);
 
     //MOTOR HORIZONTAL
+    p.fill(200);
+    p.strokeWeight(1 * this.size);
+    p.stroke('#BFBFBF');
+
     p.beginShape();
     p.vertex(
-      this.motion.pos.x + 40 * this.size,
+      this.motion.pos.x + 55 * this.size,
       this.motion.pos.y + 25 * this.size
     );
     p.bezierVertex(
-      this.motion.pos.x+ 50 * this.size,
-      this.motion.pos.y + 25 * this.size,
-      this.motion.pos.x + 50 * this.size,
-      this.motion.pos.y + 35 * this.size,
-      this.motion.pos.x + 70 * this.size,
+      this.motion.pos.x + 66 * this.size,
+      this.motion.pos.y + 30 * this.size,
+      this.motion.pos.x + 68 * this.size,
+      this.motion.pos.y + 30 * this.size,
+      this.motion.pos.x + 55 * this.size,
       this.motion.pos.y + 35 * this.size
     );
-
     p.endShape(p.CLOSE);
     p.pop();
 
