@@ -1,5 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import * as p5 from 'p5';
+import { Camera } from 'src/utils/algorithm/camera2D';
+import { HUD } from 'src/utils/algorithm/debug-hud';
 import { gradientBackground } from 'src/utils/algorithm/gradiente-back-ground';
 import { Particle } from 'src/utils/algorithm/particles';
 import { Submarine } from 'src/utils/poligons-model/submarin';
@@ -15,6 +17,7 @@ export class HomePage {
   isDownArrowPressed: any;
 
   particles: Particle[] = [];
+  sceneObjects: Particle[] = [];
   num = 10000;
   noiseScale = 0.01 / 2;
   submarine: any;
@@ -23,7 +26,8 @@ export class HomePage {
   resistance: number;
   resistanceForce: p5.Vector = new p5.Vector();
 
-  cam: p5.Camera = new p5.Camera();
+  cam: Camera = new Camera();
+  hud: any;
 
   constructor(private el: ElementRef) {
     this.peso = 0.005;
@@ -54,27 +58,47 @@ export class HomePage {
   setup(p: any) {
     const c = document.querySelector('#canvasContainer');
     p.createCanvas(p.displayWidth, 1800).parent(c);
-    const INITPOS = this.getInitPos(p);
-    const INITACC = new p5.Vector();
-    const INITVEL = new p5.Vector();
-    this.submarine = new Submarine(INITPOS, INITVEL, INITACC, p);
+    const POSITION = this.getInitPos(p);
+    const ACCELERATION = new p5.Vector();
+    const VELECITY = new p5.Vector();
+    this.submarine = new Submarine(POSITION, ACCELERATION, VELECITY, p);
     this.resistanceForce = this.submarine.motion.velocity
       .copy()
       .mult(-this.resistance);
+    this.cam = new Camera(p);
+    this.hud = new HUD(this.cam, this.submarine);
+    this.drawObjects;
+
+    this.preloadObjects(p);
   }
 
   draw(p: any) {
     p.push();
-    gradientBackground(p, p.displayWidth, p.displayHeight);
+    /*  gradientBackground(
+      p,
+      p.displayWidth,
+      p.displayHeight + this.submarine.motion.pos.y
+    ); */
+    p.background(
+      0,
+      0,
+      p.map(this.submarine.motion.pos.y, 0, p.displayHeight, 255, 0)
+    );
+
+    this.cam.track(this.submarine.motion, p);
+    this.cam.draw(p);
     this.submarine.display(p);
     this.submarine.update();
-    //this.submarine.checkEdges(p);
+    this.submarine.checkEdges(p);
     this.accelerateToDirection(p);
+    this.drawObjects(p);
     p.pop();
+
+    this.hud.draw(p);
   }
 
   private getInitPos(p: p5): p5.Vector {
-    return new p5.Vector(p.displayWidth / 2, 20);
+    return new p5.Vector(p.displayWidth / 2, p.displayHeight / 2);
   }
 
   mouseReleased(p: p5) {
@@ -139,6 +163,25 @@ export class HomePage {
         // remove this particle
         this.particles.splice(i, 1);
       }
+    }
+  }
+
+  drawObjects(p: p5) {
+    for (let obj of this.sceneObjects) {
+      // obj.update();
+      obj.show(p);
+    }
+  }
+
+  preloadObjects(p: p5) {
+    for (let i = 0; i < 1000; i++) {
+      let part = new Particle(
+        p.random(p.displayWidth),
+        p.random(p.displayHeight * 1.5),
+        0,
+        0
+      );
+      this.sceneObjects.push(part);
     }
   }
 

@@ -26,8 +26,8 @@ export class Particle {
   }
 
   show(p5: p5) {
-    //p5.noFill();
-    p5.fill(255, this.alpha);
+    p5.noFill();
+    //p5.fill(255, this.alpha);
     p5.strokeWeight(0.8);
     p5.stroke(200, this.alpha);
     p5.ellipse(this.x + p5.random(-1, 1), this.y - p5.random(-1, 1), 6);
