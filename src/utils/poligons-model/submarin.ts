@@ -8,6 +8,7 @@ export class Submarine {
   higth: number;
   motion: Motion;
   imagem: any;
+
   isFaceToRight = true;
 
   testMode = false;
@@ -109,6 +110,30 @@ export class Submarine {
     }
     return collision;
   }
+
+  /*  keyPressed(p: p5) {
+    if (p.keyCode === p.LEFT_ARROW) {
+      this.isLeftArrowPressed = true;
+    } else if (p.keyCode === p.RIGHT_ARROW) {
+      this.isRightArrowPressed = true;
+    } else if (p.keyCode === p.UP_ARROW) {
+      this.isUpArrowPressed = true;
+    } else if (p.keyCode === p.DOWN_ARROW) {
+      this.isDownArrowPressed = true;
+    }
+  }
+
+  keyReleased(p: p5) {
+    if (p.keyCode === p.LEFT_ARROW) {
+      this.isLeftArrowPressed = false;
+    } else if (p.keyCode === p.RIGHT_ARROW) {
+      this.isRightArrowPressed = false;
+    } else if (p.keyCode === p.UP_ARROW) {
+      this.isUpArrowPressed = false;
+    } else if (p.keyCode === p.DOWN_ARROW) {
+      this.isDownArrowPressed = false;
+    }
+  } */
 
   private preloadImgSub(p: p5) {
     this.imagem = p.loadImage('../assets/img/titanModelROTATE.png');

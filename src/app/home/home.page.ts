@@ -65,8 +65,6 @@ export class HomePage {
 
   draw(p: any) {
     p.push();
-    this.
-
     gradientBackground(p, p.displayWidth, p.displayHeight);
     this.submarine.display(p);
     this.submarine.update();
