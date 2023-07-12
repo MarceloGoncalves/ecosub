@@ -3,21 +3,12 @@ import * as p5 from 'p5';
 import { gradientBackground } from 'src/utils/algorithm/gradiente-back-ground';
 import { Particle } from 'src/utils/algorithm/particles';
 import { Submarine } from 'src/utils/poligons-model/submarin';
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  submarine: Submarine = new Submarine();
-  peso = 0.005;
-  gravidade = 0.001;
-
-  resistance = 0.2;
-  resistanceForce = this.submarine.motion.velocity
-    .copy()
-    .mult(-this.resistance);
   isLeftArrowPressed: any;
   isRightArrowPressed: any;
   isUpArrowPressed: any;
@@ -25,10 +16,20 @@ export class HomePage {
 
   particles: Particle[] = [];
   num = 10000;
-
   noiseScale = 0.01 / 2;
+  submarine: any;
+  peso: number;
+  gravidade: number;
+  resistance: number;
+  resistanceForce: p5.Vector = new p5.Vector();
 
-  constructor(private el: ElementRef) {}
+  cam: p5.Camera = new p5.Camera();
+
+  constructor(private el: ElementRef) {
+    this.peso = 0.005;
+    this.gravidade = 0.001;
+    this.resistance = 0.2;
+  }
 
   ngOnInit() {
     new p5((p: p5) => {
@@ -52,38 +53,30 @@ export class HomePage {
 
   setup(p: any) {
     const c = document.querySelector('#canvasContainer');
-    p.createCanvas(p.displayWidth, p.displayHeight).parent(c);
+    p.createCanvas(p.displayWidth, 1800).parent(c);
     const INITPOS = this.getInitPos(p);
     const INITACC = new p5.Vector();
     const INITVEL = new p5.Vector();
-    this.submarine = new Submarine(INITPOS, INITVEL, INITACC);
-    /* 
-    for (let i = 0; i < this.num; i++) {
-      this.particles.push(
-        p.createVector(p.random(p.displayWidth), p.random(p.displayHeight))
-      );
-    } */
-
-    /*     p.stroke(255);
-    // For a cool effect try uncommenting this line
-    // And comment out the background() line in draw
-    p.stroke(255); */
+    this.submarine = new Submarine(INITPOS, INITVEL, INITACC, p);
+    this.resistanceForce = this.submarine.motion.velocity
+      .copy()
+      .mult(-this.resistance);
   }
 
-  draw(p: p5) {
+  draw(p: any) {
     p.push();
+    this.
+
     gradientBackground(p, p.displayWidth, p.displayHeight);
     this.submarine.display(p);
     this.submarine.update();
-    this.submarine.checkEdges(p);
+    //this.submarine.checkEdges(p);
     this.accelerateToDirection(p);
     p.pop();
-
-    //p.background(0);
   }
 
   private getInitPos(p: p5): p5.Vector {
-    return new p5.Vector(p.displayWidth, 20);
+    return new p5.Vector(p.displayWidth / 2, 20);
   }
 
   mouseReleased(p: p5) {
@@ -172,5 +165,8 @@ export class HomePage {
     } else if (p.keyCode === p.DOWN_ARROW) {
       this.isDownArrowPressed = false;
     }
+  }
+  mousePressed(p: p5) {
+    p.noiseSeed(p.millis());
   }
 }

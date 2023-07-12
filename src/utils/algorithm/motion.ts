@@ -10,7 +10,7 @@ export class Motion {
     pos: Vector,
     vel: Vector,
     acceleration: Vector,
-    drag: number = 0.09
+    drag: number = 0.06
   ) {
     this.pos = pos;
     this.velocity = vel;
